@@ -1,8 +1,10 @@
-import { log } from 'console';
+import bcrypt from 'bcrypt';
 import User from '../models/user.model';
 
 export const addUser = async (newUser: any ) => {
     try {
+        const saltRounds = 10;
+        newUser.password = await bcrypt.hash(newUser.password, saltRounds);
         const user = new  User(newUser);
         return await user.save();
     }
@@ -37,6 +39,10 @@ export const getUserById = async (id: any ) => {
 
 export const updateUser = async (id: any, updateData: any ) => {
     try {
+        if (updateData.password) {
+            const saltRounds = 10;
+            updateData.password = await bcrypt.hash(updateData.password, saltRounds);
+        }
         const user = await User.findOneAndUpdate({ userId: parseInt(id)}, updateData, { new: true }).exec();
         if (!user) {
             throw new Error('User not found');

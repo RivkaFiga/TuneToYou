@@ -1,5 +1,6 @@
 import express, { Application } from 'express';
 import cors from 'cors';
+import { loggerMiddleware } from './middlewares/logger.middleware';
 import { connectDB } from './services/accessdb';
 import swaggerUi from 'swagger-ui-express';
 import { swaggerSpec } from './swagger';
@@ -16,6 +17,8 @@ app.use(express.json());
 (async () => {
     await connectDB();
 })();
+
+app.use(loggerMiddleware);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
