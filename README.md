@@ -63,7 +63,6 @@ Copy code
 │   ├── models         # Database models
 │   ├── routes         # Route definitions
 │   ├── services       # Business logic
-│   ├── utils          # Utility functions
 │   ├── app.ts         # Application setup
 │   └── swagger.json   # Swagger documentation config
 ├── .env.example       # Example environment variables
