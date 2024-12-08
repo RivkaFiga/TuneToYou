@@ -1,5 +1,6 @@
 import express from 'express';
 import * as serviceController from '../controllers/service.controller';
+import { authenticateToken, checkIsAdmin } from '../middlewares/auth.middleware';
 
 const router = express.Router();
 
@@ -19,30 +20,30 @@ const router = express.Router();
  * @swagger
  * /
  */
-router.post('/services', serviceController.addService);
+router.post('/services', authenticateToken, checkIsAdmin, serviceController.addService);
 
 /**
  * @swagger
  * /
  */
-router.get('/services', serviceController.getAllServices);
+router.get('/services', authenticateToken, serviceController.getAllServices);
 
 /**
  * @swagger
  * /
  */
-router.get('/services/:id', serviceController.getServiceById);
+router.get('/services/:id', authenticateToken, serviceController.getServiceById);
 
 /**
  * @swagger
  * /
  */
-router.put('/services/:id', serviceController.updateService);
+router.put('/services/:id', authenticateToken, checkIsAdmin, serviceController.updateService);
 
 /**
  * @swagger
  * /
  */
-router.delete('/services/:id', serviceController.deleteService);
+router.delete('/services/:id', authenticateToken, checkIsAdmin, serviceController.deleteService);
 
 export default router;

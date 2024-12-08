@@ -1,5 +1,6 @@
 import express from 'express';
 import * as userController from '../controllers/user.controller';
+import { authenticateToken, checkIsAdmin } from '../middlewares/auth.middleware';
 
 const router = express.Router();
 
@@ -17,30 +18,30 @@ const router = express.Router();
  * @swagger
  * /
  */
-router.post('/users', userController.addUser);
+router.post('/users', authenticateToken, checkIsAdmin, userController.addUser);
 
 /**
  * @swagger
  * /
  */
-router.get('/users', userController.getAllUsers);
+router.get('/users', authenticateToken, checkIsAdmin, userController.getAllUsers);
 
 /**
  * @swagger
  * /
  */
-router.get('/users/:id', userController.getUserById);
+router.get('/users/:id',authenticateToken, userController.getUserById);
 
 /**
  * @swagger
  * /
  */
-router.put('/users/:id', userController.updateUser);
+router.put('/users/:id', authenticateToken, checkIsAdmin, userController.updateUser);
 
 /**
  * @swagger
  * /
  */
-router.delete('/users/:id', userController.deleteUser);
+router.delete('/users/:id',authenticateToken, userController.deleteUser);
 
 export default router;
